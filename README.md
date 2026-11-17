@@ -1,3 +1,6 @@
+# RECUPERAÇÃO VALETIM-17-11
+Importante!
+Esse codigo se refere ao consumidor logo acima, usando a API disponibilizada pelo professor, junto a consulta de api offline e o frontend junto.
 API Meteorológica Offline
 API REST desenvolvida com Python e FastAPI para disponibilização de dados meteorológicos simulados, armazenados localmente em JSON.
 
@@ -9,7 +12,24 @@ FastAPI
 Uvicorn
 JSON
 Requests (para aplicações consumidoras)
-2.
+2. Estrutura do projeto
+api-meteorologica-offline/
+├── app/
+│   ├── data/
+│   │   └── dados_meteorologicos.json
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   └── meteorologia.py
+│   ├── __init__.py
+│   ├── main.py
+│   └── services.py
+├── .gitignore
+├── requirements.txt
+└── README.md
+3. Instalação
+Pré-requisitos
+Python 3.10 ou superior.
+pip.
 Clonar o repositório
 git clone https://github.com/jpsvalentim/api-meteorologica-offline.git
 Acessar a pasta:
@@ -66,3 +86,45 @@ temperature_2m
 relative_humidity_2m
 precipitation
 wind_speed_10m
+7. Exemplos de requisição
+Consultar dados atuais
+http://127.0.0.1:8000/v1/forecast?latitude=-26.4851&longitude=-49.0713
+Consultar dados horários
+http://127.0.0.1:8000/v1/forecast?latitude=-26.4851&longitude=-49.0713&current=&hourly=temperature_2m,precipitation
+Consultar dados atuais e horários
+http://127.0.0.1:8000/v1/forecast?latitude=-26.4851&longitude=-49.0713&current=temperature_2m,relative_humidity_2m&hourly=temperature_2m,precipitation&forecast_days=1
+8. Exemplo de consumo com Python Requests
+import requests
+
+url = "http://127.0.0.1:8000/v1/forecast"
+
+params = {
+    "latitude": -26.4851,
+    "longitude": -49.0713,
+    "current": "temperature_2m,relative_humidity_2m",
+    "hourly": "temperature_2m,precipitation",
+    "forecast_days": 1
+}
+
+resposta = requests.get(url, params=params)
+
+if resposta.status_code == 200:
+    dados = resposta.json()
+    print(dados)
+else:
+    print("Erro:", resposta.status_code, resposta.text)
+9. Códigos de resposta
+Código HTTP	Significado
+200	Consulta realizada com sucesso
+400	Parâmetro ou variável inválida
+404	Localidade não encontrada
+422	Erro de validação dos parâmetros
+500	Erro interno relacionado ao processamento dos dados
+10. Observações
+Os dados meteorológicos são simulados e armazenados localmente em JSON.
+A API não realiza consultas a serviços meteorológicos externos.
+A localidade disponível é Jaraguá do Sul – SC.
+A quantidade de registros horários retornados depende dos dados existentes no arquivo JSON.
+O parâmetro forecast_days estabelece um limite de registros, não gera novos dados meteorológicos.
+A estrutura das respostas é inspirada na Open-Meteo, sem implementar integralmente sua API.
+API Meteorológica Offline — Projeto desenvolvido para integração e consumo de dados por aplicações Python.
