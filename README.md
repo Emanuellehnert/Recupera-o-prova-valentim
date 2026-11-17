@@ -9,7 +9,7 @@ FastAPI
 Uvicorn
 JSON
 Requests (para aplicações consumidoras)
-2.
+2. Etapas necessárias
 Clonar o repositório
 git clone https://github.com/jpsvalentim/api-meteorologica-offline.git
 Acessar a pasta:
